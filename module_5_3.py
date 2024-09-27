@@ -1,4 +1,4 @@
-class House():
+class House:
     def __init__(self, name, number_of_floors):
         self.name = name
         self.number_of_floors = number_of_floors
@@ -40,12 +40,10 @@ class House():
         return House(self.name, self.number_of_floors + value)
 
     def __iadd__(self, value):
-        self.number_of_floors += value
-        return self
+        return self.__add__(value)
 
     def __radd__(self, value):
-        self.number_of_floors = value + self.number_of_floors
-        return self
+        return self.__add__(value)
 
 
 h1 = House('ЖК Эльбрус', 10)
