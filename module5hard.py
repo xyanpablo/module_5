@@ -11,6 +11,22 @@ class User:
         return hash(self.password)
 
 
+    def __str__(self):
+        return self.nickname
+
+    def __eq__(self, other):
+        if not isinstance(other, (str, User)):
+            raise TypeError("Операнд должен иметь тип 'str' или 'User'")
+        res = other if isinstance(other, str) else other.nickname
+        return self.nickname == res
+
+
+    def __lt__(self, other):
+        if not isinstance(other, (int, User)):
+            raise TypeError("Операнд должен иметь тип 'int' или 'User'")
+        res = other if isinstance(other, int) else other.age
+        return self.age < res
+
 class Video:
     def __init__(self, title, duration, time_now=0, adult_mode=False):
         self.title = title
@@ -19,12 +35,33 @@ class Video:
         self.adult_mode = adult_mode
 
 
+    def __str__(self):
+        return self.title
+
+    def __eq__(self, other):
+        return self.title == other.title
+
 class UrTube:
     def __init__(self):
         self.users = []
         self.videos = []
         self.current_user = None
 
+
+    def __eq__(self, other):
+        if not isinstance(other, (str, Video)):
+            raise TypeError("Операнд должен иметь тип 'str' или 'Video'")
+        res = other if isinstance(other, str) else other.title
+        return self.title == res
+
+    def __str__(self):
+        """Метод для функций print, format возвращает строку,
+        содержащую названия всех video из списка videos"""
+        name_video = ""
+        for video in self.videos:
+            name_video += video.title + '\n'
+        name_video = name_video[ : len(name_video) - 1]
+        return name_video
     def log_in(self, nickname, password):
         if nickname in self.users:
             if hash(password) == User.__hash__(password):
@@ -37,11 +74,13 @@ class UrTube:
             print('Такого пользователя не существует.')
 
     def register(self, nickname, password, age):
-        if nickname in self.users:
-            print(f'Пользователь с никнеймом: {nickname} уже существует.')
-        else:
-            self.users.append(User)
-            print(f'Регистрация успешно выполнена, {nickname}')
+        for i in self.users:
+            if nickname == i:
+                print(f'Пользователь с никнеймом: {nickname} уже существует.')
+            else:
+                self.users.append(User(nickname, password, age))
+                self.log_in(nickname, password)
+                print(f'Регистрация успешно выполнена, {nickname}')
 
     def log_out(self):
         self.current_user = None
