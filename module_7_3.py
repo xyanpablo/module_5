@@ -20,18 +20,21 @@ class WordsFinder:
         res = {}
         counter = 0
         for name, words in self.get_all_words().items():
-            counter += 1
-            if words == word.lower():
-                res = {name: counter}
+            for i in words:
+                counter += 1
+                if i.lower() == word.lower():
+                    res = {name: counter}
+                    break
         return res
 
     def count(self, word):
         res = {}
         counter = 0
         for name, words in self.get_all_words().items():
-            if words == word.lower():
-                counter += 1
-                res = {name: counter}
+            for i in words:
+                if i.lower() == word.lower():
+                    counter += 1
+                    res = {name: counter}
         return res
 
 
