@@ -18,12 +18,12 @@ class WordsFinder:
 
     def find(self, word):
         res = {}
-        counter = 0
+        finder = 0
         for name, words in self.get_all_words().items():
             for i in words:
-                counter += 1
-                if i.lower() == word.lower():
-                    res = {name: counter}
+                finder += 1
+                if i == word.lower():
+                    res = {name: finder}
                     break
         return res
 
@@ -32,7 +32,7 @@ class WordsFinder:
         counter = 0
         for name, words in self.get_all_words().items():
             for i in words:
-                if i.lower() == word.lower():
+                if i == word.lower():
                     counter += 1
                     res = {name: counter}
         return res
